@@ -76,6 +76,7 @@ public class List<T> implements TDAList<T>{
      */
     @Override
     public T get(int i) throws IndexOutOfBoundsException {
+        Node aux = head;
         if( i < 0 || i > size){
             throw new IndexOutOfBoundsException();
         }else if(isEmpty()){
@@ -83,12 +84,7 @@ public class List<T> implements TDAList<T>{
         }else if(i == 0){
             return head.getElement();
         }else{
-<<<<<<< HEAD
-            for(int j = 0; j < i-1; i++){
-=======
-            Node aux = head;
             for(int j = 0; j < i-1; j++){
->>>>>>> f18b93a58a3960e4a4d083e313603d2dce3af48b
                 aux = aux.getNext();
             }
             return aux.getElement();
