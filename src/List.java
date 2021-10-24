@@ -54,6 +54,9 @@ public class List<T> implements TDAList<T>{
     @Override
     public boolean contains(T e) {
         Node aux = head;
+        if(isEmpty()){
+            return false;
+        }
 
         for(int i = 0; i < size; i++){
             if(aux.getElement().equals(e)){
@@ -73,15 +76,19 @@ public class List<T> implements TDAList<T>{
      */
     @Override
     public T get(int i) throws IndexOutOfBoundsException {
-        Node aux = head;
-        if( i < 0 || i >= size){
+        if( i < 0 || i > size){
             throw new IndexOutOfBoundsException();
         }else if(isEmpty()){
             return null;
         }else if(i == 0){
             return head.getElement();
         }else{
+<<<<<<< HEAD
             for(int j = 0; j < i-1; i++){
+=======
+            Node aux = head;
+            for(int j = 0; j < i-1; j++){
+>>>>>>> f18b93a58a3960e4a4d083e313603d2dce3af48b
                 aux = aux.getNext();
             }
             return aux.getElement();
@@ -197,4 +204,17 @@ public class List<T> implements TDAList<T>{
 
     }
 
+    @Override
+    public String toString() {
+        if(!isEmpty()) {
+            String result = "";
+            Node aux = head;
+            while (aux != null) {
+                result += aux.getElement() + ", ";
+                aux = aux.getNext();
+            }
+            return result.substring(0, result.length() - 2);
+        }
+        return "La lista es vacía";
+    }
 }

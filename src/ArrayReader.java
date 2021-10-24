@@ -22,12 +22,12 @@ public class ArrayReader {
      * @param name el nombre del archivo.
      * @return una matriz de enteros.
      */
-    public static String[][] readMatrix(String name){
+    public static Box[][] readMatrix(String name){
         try(BufferedReader reader = new BufferedReader(new FileReader(name))){
             String[] dimensions = reader.readLine().split(",");
             // Se leen las dimensiones del laberinto
             int h = Integer.valueOf(dimensions[0]), w = Integer.valueOf(dimensions[1]);
-            String[][] result = new String[h][w];
+            Box[][] result = new Box[h][w];
             
             String line = null;
             int index = 0;
@@ -35,10 +35,22 @@ public class ArrayReader {
                 String[] data = line.split(",");
                 // Se obtiene la fila y columna de la casilla del laberinto
                 int row = Integer.valueOf(data[0]), column = Integer.valueOf(data[1]);
-                result[row][column] = "    ";
+                //result[row][column] = "     ";
                 // Depende de como definas el constructor de Box ajusta la siguiente linea
-                //result[row][colum] = new Box(row, colum);
+                result[row][column] = new Box(false);
             }
+
+            for(int i = 0; i < result.length; i++){
+                for(int j = 0; j < result[0].length; j++){
+                    if(result[i][j] == null){
+                        result[i][j] = new Box(true);
+                    }
+                }
+
+            }
+
+
+
             
             return result;
         } catch(FileNotFoundException fnfe){

@@ -34,5 +34,4 @@ public interface TDAQueue<T>{
 	 * @return true si la cola no contiene elementos, false en otro caso.
 	 */
 	public boolean isEmpty();
-
 }
