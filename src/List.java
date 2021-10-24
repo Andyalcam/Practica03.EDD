@@ -81,7 +81,7 @@ public class List<T> implements TDAList<T>{
         }else if(i == 0){
             return head.getElement();
         }else{
-            for(int j = 0; j < i; i++){
+            for(int j = 0; j < i-1; i++){
                 aux = aux.getNext();
             }
             return aux.getElement();
