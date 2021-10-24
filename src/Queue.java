@@ -50,4 +50,19 @@ public class Queue<T> implements TDAQueue<T>{
     public boolean isEmpty() {
         return queueList.isEmpty();
     }
+
+    /**
+     * Verifica si un elemento está contenido en la lista.
+     *
+     * @param e el elemento a verificar si está contenido.
+     * @return true si el elemento está contenido, false en otro caso.
+     */
+    public boolean contains(T e) {
+        return queueList.contains(e);
+    }
+
+    @Override
+    public String toString() {
+        return queueList.toString();
+    }
 }

@@ -3,38 +3,48 @@ public class Main {
 
         /*String directorio = "src/laberintos/";
 
-        String[][] laberintoA = ArrayReader.readMatrix(directorio + "LaberintoA.txt");
-        String[][] laberintoB = ArrayReader.readMatrix(directorio + "LaberintoB.txt");
+        Box[][] laberintoA = ArrayReader.readMatrix(directorio + "LaberintoA.txt");
+        //String[][] laberintoB = ArrayReader.readMatrix(directorio + "LaberintoB.txt");
 
         printLaberinto(laberintoA);
-        System.out.println("");
-        printLaberinto(laberintoB);*/
+        //System.out.println("");
+        //printLaberinto(laberintoB);*/
 
-        Queue queue = new Queue();
+
+        /*Queue queue = new Queue();
 
         queue.enqueue("Wofito");
         queue.enqueue("Milly");
         queue.enqueue("Zuly");
 
-        System.out.println(queue.first());
+        System.out.println(queue.toString());*/
+
+        Box box = new Box(true);
+        box.neighborsQueue();
+        box.toString();
+
+
+
+
 
 
 
     }
 
-    public static void printLaberinto(String[][] laberinto){
+    public static void printLaberinto(Box[][] laberinto){
+        Box box;
         for(int i = 0; i < laberinto.length; i++){
             for(int j = 0; j < laberinto[0].length; j++){
-                if(laberinto[i][j] != null){
-                    System.out.print(laberinto[i][j]);
+                box = laberinto[i][j];
+                if(box.isWall() == false){
+                    System.out.print("     ");
                 }else{
-                    System.out.print("@@@@");
+                    System.out.print("@@@@@");
                 }
 
             }
             System.out.println("");
         }
     }
-
 
 }

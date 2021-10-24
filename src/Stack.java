@@ -33,7 +33,8 @@ public class Stack<T> implements TDAStack<T>{
         if(stackList.isEmpty()){
             throw new EmptyStackException();
         }
-        return stackList.remove(0);
+        stackList.remove(0);
+        return stackList.get(0);
     }
 
     /**
@@ -54,5 +55,10 @@ public class Stack<T> implements TDAStack<T>{
     @Override
     public T top() throws EmptyStackException {
         return stackList.get(0);
+    }
+
+    @Override
+    public String toString() {
+        return stackList.toString();
     }
 }
