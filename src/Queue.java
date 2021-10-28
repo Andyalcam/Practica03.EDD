@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class Queue<T> implements TDAQueue<T>{
 
     List<T> queueList = new List<>();
@@ -59,6 +61,16 @@ public class Queue<T> implements TDAQueue<T>{
      */
     public boolean contains(T e) {
         return queueList.contains(e);
+    }
+
+    /**
+     * Devuelve el tamaño de la cola
+     *
+     * @return el tamaño de la cola
+     */
+
+    public int size(){
+        return queueList.size();
     }
 
     @Override
