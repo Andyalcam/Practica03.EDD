@@ -57,8 +57,20 @@ public class Stack<T> implements TDAStack<T>{
         return stackList.get(0);
     }
 
+    /**
+     * Regresa el tamaño de la pila
+     *
+     * @return Tamaño de la pila
+     */
+    public int size(){
+       return stackList.size();
+    }
+
+
     @Override
     public String toString() {
         return stackList.toString();
     }
+
+
 }

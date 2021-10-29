@@ -40,7 +40,7 @@ public class Queue<T> implements TDAQueue<T>{
      */
     @Override
     public T first() {
-        return queueList.get(queueList.size()-1);
+        return queueList.get(queueList.size());
     }
 
     /**

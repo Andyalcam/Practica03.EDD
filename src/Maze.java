@@ -4,13 +4,15 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class Maze {
 
+    Scanner scanner = new Scanner(System.in);
+    Stack<Box> stack = new Stack();
     private Box[][] boxes;
     private Box actual;
     private Box siguiente;
     private int rowBeginBox, columnBeginBox, rowEndBox, columnEndBox;
-    Scanner scanner = new Scanner(System.in);
 
     public Maze(String file) {
         readMaze(file);
@@ -20,10 +22,12 @@ public class Maze {
 
     public void begin(){
         actual.visit();
+        stack.push(actual);
         siguiente = boxes[getRowBeginBox()][getColumnBeginBox()+1];
         siguiente.visit();
+        stack.push(siguiente);
+        //printMaze();
         actual = siguiente;
-        printMaze();
         extend();
     }
 
@@ -37,9 +41,16 @@ public class Maze {
 
     public void extend(){
         if(isExtensible()){
-            System.out.println("Posibles vecinos: " + actual.printNeighbors());
-            System.out.println("Siguiente: " + siguiente.isWall() + "," + siguiente.isVisited());
+            //System.out.println("Posibles vecinos: " + actual.printNeighbors());
+            //System.out.println("Siguiente: " + siguiente.isWall() + "," + siguiente.isVisited());
             do{
+                if(actual.getNeighborsSize() == 0){
+                    extend();
+                }else if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()){
+                    pop();
+                    System.out.println("Fakiu no hay solución puñetas :3");
+                    System.exit(0);
+                }
                 switch(actual.getNextNeighbor()) {
                     case 0:
                         siguiente = boxes[(actual.getRow() - 1)][actual.getColumn()];
@@ -54,18 +65,25 @@ public class Maze {
                         siguiente = boxes[actual.getRow()][(actual.getColumn() - 1)];
                         break;
                 }
-                System.out.println("Cc Siguiente: " + siguiente.getRow() + "," + siguiente.getColumn());
-                System.out.println("Posibles: " + actual.printNeighbors());
+                //System.out.println("Cc Actual: " + actual.getRow() + "," + actual.getColumn());
+                //System.out.println("Posibles: " + actual.printNeighbors());
+                actual.removeNeighbor();
             }while(siguiente.isWall() || siguiente.getVisited());
             actual = siguiente;
             actual.visit();
-            printMaze();
-            System.out.println("Posibles vecinos actuales: " + actual.printNeighbors());
-            scanner.next();
+            stack.push(actual);
+            //printMaze();
+            //System.out.println("Posibles vecinos actuales: " + actual.printNeighbors());
+            //scanner.next();
             extend();
         }else{
+            if(actual.getNeighborsSize() == 0){
+                pop();
+                extend();
+            }
             if(isSolution()){
-                System.out.println("Oa crayoa");
+                solve();
+                System.exit(0);
             }else{
                 System.out.println("Fakiu no hay solución");
             }
@@ -73,7 +91,37 @@ public class Maze {
 
     }
 
+    public void pop(){
+        while(actual.getNeighborsSize() == 0){
+            if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()+1){
+                System.out.println("Fakiu no hay solución puñetas :3");
+                System.exit(0);
+            }
+            actual.setDraw("     ");
+            actual = stack.pop();
+        }
+    }
+
     public void solve(){
+
+        Stack<Box> stackAux = new Stack<>();
+        printMaze();
+        System.out.println(stack.top());
+        System.out.println(stack.pop());
+        System.out.println(stack.top());
+        //String ccs = "Lista de coordenadas de la solución: [";
+
+        /*for(int i = 0; i < stack.size(); i++){
+            System.out.print(i + " ");
+            stackAux.push(stack.top());
+            stackAux.push(stack.pop());
+        }*/
+
+        System.out.println(stackAux.toString());
+
+        /*String cc = ccs.substring(0, ccs.length()-2);
+        System.out.println(cc +"]");
+        System.out.println();*/
 
     }
 
@@ -121,7 +169,7 @@ public class Maze {
 
             for(int i = 0; i < boxes.length; i++){
                 if(!boxes[i][0].isWall()){
-                    rowBeginBox = i ;
+                    rowBeginBox = i;
                     columnBeginBox = 0;
                 }
             }
@@ -143,7 +191,7 @@ public class Maze {
         for(int i = 0; i < boxes.length; i++){
             for(int j = 0; j < boxes[0].length; j++){
                 box = boxes[i][j];
-                System.out.print(box.toString());
+                System.out.print(box.getDraw());
             }
             System.out.println("");
         }

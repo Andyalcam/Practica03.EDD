@@ -34,6 +34,7 @@ public class Box {
 
     public void visit(){
         setDraw("  o  ");
+        setVisited(true);
     }
 
     /**
@@ -79,6 +80,10 @@ public class Box {
         return column;
     }
 
+    public String getDraw(){
+        return draw;
+    }
+
     public int getNeighborsSize(){
         if(neighbors.size() == 0){
             setVisited(true);
@@ -87,9 +92,11 @@ public class Box {
     }
 
     public int getNextNeighbor(){
-        int neighbor = (int) neighbors.first();
+        return (int) neighbors.first();
+    }
+
+    public void removeNeighbor(){
         neighbors.dequeue();
-        return neighbor;
     }
 
     public String printNeighbors(){
@@ -98,6 +105,6 @@ public class Box {
 
     @Override
     public String toString() {
-        return draw;
+        return "(" + getRow() + "," + getColumn() +")";
     }
 }
