@@ -41,7 +41,7 @@ public class Maze {
 
     public void extend(){
         try{
-            Thread.sleep(1);
+            Thread.sleep(100);
         }catch (Exception e){}
         if(isExtensible()){
             try{
@@ -85,7 +85,7 @@ public class Maze {
             if(isSolution()){
                 solve();
             }else{
-                System.out.println("Fakiu no hay solución");
+                System.out.println("No hay solución");
             }
         }
 
@@ -94,6 +94,7 @@ public class Maze {
     public void pop(){
         while(actual.getNeighborsSize() == 0){
             if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()+1){
+                printMaze();
                 System.out.println("Fakiu no hay solución puñetas :3");
                 System.exit(0);
             }
@@ -104,7 +105,15 @@ public class Maze {
 
     public void solve(){
         printMaze();
-        System.out.println(stack.toString());
+        int size = stack.size();
+        stackAux.push(stack.top());
+        String ccs = "Lista de coordenadas de la solución: [ ";
+
+        for(int i = 1; i <size; i++){
+            stackAux.push(stack.pop());
+        }
+
+        System.out.println(ccs + stackAux + " ]");
     }
 
     public int getRowBeginBox() {
@@ -177,5 +186,6 @@ public class Maze {
             }
             System.out.println("");
         }
+        System.out.println();
     }
 }
