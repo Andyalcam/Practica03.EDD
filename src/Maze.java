@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
+/**
+* Clase que crea un laberinto a base de una matriz de objetos de tipo Box. Extiende a JPanel para crear una interfaz gráfica.
+* @author Alfonso Mondragon Segoviano
+* @author Andrea Alvarado Camacho
+* @version 1.0
+*/
 public class Maze extends JPanel {
     Stack<Box> stack = new Stack();
     private Box[][] boxes;
@@ -12,13 +17,20 @@ public class Maze extends JPanel {
     private Box siguiente;
     private int rowBeginBox, columnBeginBox, rowEndBox, columnEndBox;
 
+    /**
+     * Constructor para crear un objeto laberinto.
+     * Como atributos tiene dos objetos de tipo Box, uno que indica la casilla actual y otro con la casilla siguiente.
+     * @param file String - con las coordenadas necesarias para crear un laberinto nuevo.
+     */
     public Maze(String file) {
         readMaze(file);
         actual = boxes[getRowBeginBox()][getColumnBeginBox()];
         siguiente = new Box();
-
     }
 
+    /**
+     * Metodo que inicia el intento para encontrar la solucion al laberinto.
+     */
     public void begin(){
         actual.visit();
         stack.push(actual);
@@ -29,24 +41,36 @@ public class Maze extends JPanel {
         extend();
     }
 
+    /**
+     * Metodo que verifica si el intento es una solucion para el laberinto.
+     * @return boolean - true si es solucion, false en caso contrario.
+     */
     public boolean isSolution(){
         return actual.getRow() == getRowEndBox() && actual.getColumn() == getColumnEndBox() || (siguiente.getRow() == getRowEndBox() && siguiente.getColumn() == getColumnEndBox());
     }
 
+    /**
+     * Metodo que verfica si el laberinto es extensible (Si puede seguir buscando una solucion).
+     * @return boolean - true si es extensible, false en caso contrario.
+     */
     public boolean isExtensible(){
         return actual.getNeighborsSize() != 0 && !isSolution();
     }
 
+    /**
+     * Metodo que extiende el laberinto. Verifica que extensible sea true, que haya vecinos disponibles,
+     * para poder avanzar la casilla "actual" a la "siguiente". Si la casilla "actual" ya no tiene vecinos
+     * disponibles, llama al metodo pop y realiza el backtraking.
+     * En cada avance de la solucion, se va actualizando la interfaz grafica para mostrar el avance de la busqueda de la solucion.
+     */
     public void extend(){
         if(isExtensible()){
             try {
                 do{
                     if(actual.getNeighborsSize() == 0){
                         extend();
-                    }else if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()){
-                        pop();
-                        System.out.println("Fakiu no hay solución puñetas :33");
                     }
+                    // Con base en la lista de vecinos posibles de la casilla, avanzará hacia arriba, abajo, derecha o izquierda.
                     switch(actual.getNextNeighbor()) {
                         case 0:
                             siguiente = boxes[(actual.getRow() - 1)][actual.getColumn()];
@@ -61,39 +85,38 @@ public class Maze extends JPanel {
                             siguiente = boxes[actual.getRow()][(actual.getColumn() - 1)];
                             break;
                     }
-                    actual.removeNeighbor();
-                }while(siguiente.isWall() || siguiente.getVisited());
-                actual = siguiente;
-                actual.visit();
+                    actual.removeNeighbor(); // Removemos el elemento de la lista de vecinos posibles para que no vuelva a ir hacia esa dirección.
+                }while(siguiente.isWall() || siguiente.isVisited());
+                actual = siguiente; // Actualizamos la casilla actual si logro avanzar.
+                actual.visit(); // La marcamos como visitada.
                 Main.main.repaint();  //Clase Donde Esta El Main.Objeto Del Metodo Main.repaint()
-                stack.push(actual);
+                stack.push(actual); // Agregamos la casilla a la pila de la solucion.
                 try {
                     Thread.sleep(100);
                 }catch(InterruptedException e){
 
                 }
-                extend();
+                extend(); // Seguimos avanzando la casilla actual mientras siga teniendo vecinos disponibles.
             }catch(IndexOutOfBoundsException e){
-
             }
         }else{
             if(actual.getNeighborsSize() == 0){
-                pop();
+                pop(); // Es aquí donde hacemos el backtraking haciendo pop's y regresando la casilla "actual" a una donde tenga más vecinos disponibles.
                 extend();
             }
             if(isSolution()){
-                solve();
-            }else{
-                System.out.println("Fakiu no hay solución");
+                solve(); // Si es solución, llamamos al metodo solve e imprimimos las coordenadas de la solución.
             }
         }
-
     }
 
+    /**
+     * Metodo que realiza pop's en la pila de boxes mientras la casilla actual no tenga vecinos disponibles.
+     */
     public void pop(){
         while(actual.getNeighborsSize() == 0){
             if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()+1){
-                System.out.println("Fakiu no hay solución puñetas :3");
+                System.out.println("Este laberinto no tiene solución :c");
                 System.exit(0);
             }
             actual.setDraw("     ");
@@ -102,6 +125,9 @@ public class Maze extends JPanel {
         }
     }
 
+    /**
+     * Metodo que imprime la solucion del laberinto en forma de coordenadas.
+     */
     public void solve(){
         Stack<Box> stackAux = new Stack<>();
         //printMaze();
@@ -113,28 +139,49 @@ public class Maze extends JPanel {
         }
 
         System.out.println(ccs + stackAux + " ]");
+
         try{
             Thread.sleep(5000);
         }catch(InterruptedException e){}
         System.exit(0);
     }
 
+    /**
+     * Metodo que regresa la coordenada de fila inicial.
+     * @return int - con el valor de la fila donde se ubica la casilla de inicio.
+     */
     public int getRowBeginBox() {
         return rowBeginBox;
     }
 
+    /**
+     * Metodo que regresa la coordenada de columna inicial.
+     * @return int - con el valor de la columna donde se ubica la casilla de inicio.
+     */
     public int getColumnBeginBox() {
         return columnBeginBox;
     }
 
+    /**
+     * Metodo que regresa la coordenada de fila final.
+     * @return int - con el valor de la fila donde se ubica la casilla de salida.
+     */
     public int getRowEndBox() {
         return rowEndBox;
     }
 
+    /**
+     * Metodo que regresa la coordenada de columna final.
+     * @return int - con el valor de la columna donde se ubica la casilla de salida.
+     */
     public int getColumnEndBox() {
         return columnEndBox;
     }
 
+    /**
+     * Metodo que lee las coordenadas de un archivo .txt y crea la matriz de objetos de tipo Box
+     * y lo va llenando mientras crea los objetos (casillas) conforme a los parametros necesarios.
+     */
     public void readMaze(String name){
         try(BufferedReader reader = new BufferedReader(new FileReader(name))){
             String[] dimensions = reader.readLine().split(",");
@@ -158,7 +205,6 @@ public class Maze extends JPanel {
                         boxes[i][j] = new Box(true, i, j);
                     }
                 }
-
             }
 
             for(int i = 0; i < boxes.length; i++){
@@ -180,6 +226,9 @@ public class Maze extends JPanel {
         } catch(IOException ioe){}
     }
 
+    /**
+     * Metodo que imprime el laberinto.
+     */
     public void printMaze(){
         Box box;
         for(int i = 0; i < boxes.length; i++){
@@ -191,6 +240,9 @@ public class Maze extends JPanel {
         }
     }
 
+    /**
+     * Metodo encargado de representar graficamente el laberinto.
+     */
     public void paint(Graphics graphics){
         for(int i = 0; i < boxes.length; i++){
             for(int j = 0; j < boxes.length; j++){

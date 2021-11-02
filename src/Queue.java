@@ -1,5 +1,10 @@
 import java.util.Random;
-
+/**
+* Clase que implementa la interfaz TDAQueue para crear colas.
+* @author Alfonso Mondragon Segoviano
+* @author Andrea Alvarado Camacho
+* @version 1.0
+*/
 public class Queue<T> implements TDAQueue<T>{
 
     List<T> queueList = new List<>();
@@ -73,6 +78,10 @@ public class Queue<T> implements TDAQueue<T>{
         return queueList.size();
     }
 
+    /**
+     * Metodo que imprime los elementos de la cola.
+     * @return String - cadena con los elementos.
+     */
     @Override
     public String toString() {
         return queueList.toString();

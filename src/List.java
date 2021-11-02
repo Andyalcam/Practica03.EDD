@@ -1,5 +1,9 @@
 import java.util.Iterator;
-
+/**
+* Clase que implementa la interfaz TDAList para crear listas simplemente ligadas.
+* @author Alfonso Mondragon Segoviano
+* @version 1.1
+*/
 public class List<T> implements TDAList<T>{
 
     private Node head;
@@ -177,29 +181,49 @@ public class List<T> implements TDAList<T>{
     }
 
 
+    // Clase Node encargada de implementar la lista simplemente ligada.
     public class Node{
 
         T element;
         Node next;
 
+        /**
+         * Constructor para crear un nodo.
+         * @param element - objeto de tipo generico.
+         */
         public Node(T element) {
             this.element = element;
         }
 
+        /**
+         * Metodo para obtener el elemento del nodo.
+         * @return T - objeto de tipo generico que representa el nodo.
+         */
         public T getElement() {
             return element;
         }
 
+        /**
+         * Metodo que regresa el nodo siguiente respecto a uno.
+         * @return Node - nodo siguiente.
+         */
         public Node getNext() {
             return next;
         }
 
+        /**
+         * Metodo para asignarle a un nodo un nodo siguiente.
+         * @param next - objeto de tipo nodo.
+         */
         public void setNext(Node next) {
             this.next = next;
         }
-
     }
 
+    /**
+     * Metodo para imprimir la lista simplemente ligada.
+     * @return String - con la cadena de elementos que contiene la lista y si es vacia, lo indica.
+     */
     @Override
     public String toString() {
         if(!isEmpty()) {

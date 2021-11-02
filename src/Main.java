@@ -1,7 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.Scanner;
-
+/**
+ * Clase main ejecutable para resolver un laberinto.
+ * @author Alfonso Mondragon Segoviano
+ * @author Andrea Alvarado Camacho
+ * @version 1.0
+ */
 public class Main extends JPanel{
     
     static String directorio = "src/laberintos/";
@@ -41,7 +46,7 @@ public class Main extends JPanel{
                 window.setVisible(true);
                 maze.begin();
             }else{
-                System.out.println("\nEscribe 'A' o 'B'");
+                System.out.println("\nEscribe 'A' o 'B'\n");
                 rep = true;
             }
         }while(rep);

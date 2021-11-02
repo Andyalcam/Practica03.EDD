@@ -1,5 +1,10 @@
 import java.util.EmptyStackException;
-
+/**
+* Clase que implementa la interfaz TDAStack para crear pilas.
+* @author Alfonso Mondragon Segoviano
+* @author Andrea Alvarado Camacho
+* @version 1.0
+*/
 public class Stack<T> implements TDAStack<T>{
 
     List<T> stackList = new List<>();
@@ -66,11 +71,12 @@ public class Stack<T> implements TDAStack<T>{
        return stackList.size();
     }
 
-
+    /**
+     * Metodo que imprime los elementos de la pila.
+     * @return String - cadena con los elementos.
+     */
     @Override
     public String toString() {
         return stackList.toString();
     }
-
-
 }
