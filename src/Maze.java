@@ -1,13 +1,11 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Scanner;
 
-
-public class Maze {
-
-    Scanner scanner = new Scanner(System.in);
+public class Maze extends JPanel {
     Stack<Box> stack = new Stack();
     private Box[][] boxes;
     private Box actual;
@@ -18,6 +16,7 @@ public class Maze {
         readMaze(file);
         actual = boxes[getRowBeginBox()][getColumnBeginBox()];
         siguiente = new Box();
+
     }
 
     public void begin(){
@@ -26,7 +25,6 @@ public class Maze {
         siguiente = boxes[getRowBeginBox()][getColumnBeginBox()+1];
         siguiente.visit();
         stack.push(siguiente);
-        //printMaze();
         actual = siguiente;
         extend();
     }
@@ -40,18 +38,14 @@ public class Maze {
     }
 
     public void extend(){
-        try{
-            Thread.sleep(100);
-        }catch (Exception e){}
         if(isExtensible()){
-            try{
+            try {
                 do{
                     if(actual.getNeighborsSize() == 0){
                         extend();
                     }else if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()){
                         pop();
-                        System.out.println("Fakiu no hay solución puñetas :3");
-                        System.exit(0);
+                        System.out.println("Fakiu no hay solución puñetas :33");
                     }
                     switch(actual.getNextNeighbor()) {
                         case 0:
@@ -71,8 +65,13 @@ public class Maze {
                 }while(siguiente.isWall() || siguiente.getVisited());
                 actual = siguiente;
                 actual.visit();
+                Main.main.repaint();  //Clase Donde Esta El Main.Objeto Del Metodo Main.repaint()
                 stack.push(actual);
-                //printMaze();
+                try {
+                    Thread.sleep(100);
+                }catch(InterruptedException e){
+
+                }
                 extend();
             }catch(IndexOutOfBoundsException e){
 
@@ -85,7 +84,7 @@ public class Maze {
             if(isSolution()){
                 solve();
             }else{
-                System.out.println("No hay solución");
+                System.out.println("Fakiu no hay solución");
             }
         }
 
@@ -94,26 +93,30 @@ public class Maze {
     public void pop(){
         while(actual.getNeighborsSize() == 0){
             if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()+1){
-                printMaze();
                 System.out.println("Fakiu no hay solución puñetas :3");
                 System.exit(0);
             }
             actual.setDraw("     ");
+            actual.setVisited(false);
             actual = stack.pop();
         }
     }
 
     public void solve(){
-        printMaze();
+        Stack<Box> stackAux = new Stack<>();
+        //printMaze();
         int size = stack.size();
         stackAux.push(stack.top());
         String ccs = "Lista de coordenadas de la solución: [ ";
-
-        for(int i = 1; i <size; i++){
+        for(int i = 1; i < size; i++){
             stackAux.push(stack.pop());
         }
 
         System.out.println(ccs + stackAux + " ]");
+        try{
+            Thread.sleep(5000);
+        }catch(InterruptedException e){}
+        System.exit(0);
     }
 
     public int getRowBeginBox() {
@@ -186,6 +189,26 @@ public class Maze {
             }
             System.out.println("");
         }
-        System.out.println();
+    }
+
+    public void paint(Graphics graphics){
+        for(int i = 0; i < boxes.length; i++){
+            for(int j = 0; j < boxes.length; j++){
+                if(boxes[i][j].isWall()){
+                    graphics.setColor(new Color(30,39,50));
+                    graphics.fillRect(j * 30, i * 30, 30, 30);
+                    graphics.setColor(new Color(55, 62, 74));
+                    graphics.drawRect(j * 30, i * 30, 30, 30);
+                }else if(boxes[i][j].isVisited()){
+                    graphics.setColor(new Color(4, 164, 117));
+                    graphics.fillRect(j * 30, i * 30, 30, 30);
+                    graphics.setColor(new Color(55, 62, 74));
+                    graphics.drawRect(j * 30, i * 30, 30, 30);
+                }else{
+                    graphics.setColor(new Color (94, 107, 128));
+                    graphics.fillRect(j * 30, i * 30, 30, 30);
+                }
+            }
+        }
     }
 }

@@ -1,49 +1,58 @@
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
-<<<<<<< HEAD
 
-=======
->>>>>>> 38f0ffa19fa2ca5abf3da4b362b63b6ca26f7028
-public class Main {
+public class Main extends JPanel{
+    
+    static String directorio = "src/laberintos/";
+    static Main main = new Main();
+    static Maze maze;
+    static JFrame window = new JFrame("Maze");
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        maze.paint(g);
+    }
+
     public static void main(String[] args) {
 
-        String directorio = "src/laberintos/";
+        initComponents();
 
-<<<<<<< HEAD
-        Maze mazeA = new Maze(directorio+"LaberintoA.txt");
-=======
         String opc;
->>>>>>> 38f0ffa19fa2ca5abf3da4b362b63b6ca26f7028
 
         boolean rep = false;
 
         Scanner in = new Scanner(System.in);
-
-<<<<<<< HEAD
-        mazeA.begin();
-        System.out.println("Inicia Maze B");
-        mazeB.begin();
-=======
-        Maze mazeA = new Maze(directorio+"LaberintoA.txt");
-
-        Maze mazeB = new Maze(directorio+"LaberintoB.txt");
 
         do{
             System.out.println("*** BIENVENIDO ***");
             System.out.println("\n¿Qué laberinto deseas probar?");
             System.out.println("Laberinto A = A");
             System.out.println("Laberinto B = B");
+            System.out.println("Ingrese la letra de la opción deseada.");
             opc = in.nextLine();
             if(opc.equalsIgnoreCase("A")){
-                mazeA.begin();
+                maze = new Maze(directorio+"LaberintoA.txt");
+                window.setVisible(true);
+                maze.begin();
             }else if(opc.equalsIgnoreCase("B")){
-                mazeB.begin();
+                maze = new Maze(directorio+"LaberintoB.txt");
+                window.setVisible(true);
+                maze.begin();
             }else{
                 System.out.println("\nEscribe 'A' o 'B'");
                 rep = true;
             }
         }while(rep);
+    }
 
->>>>>>> 38f0ffa19fa2ca5abf3da4b362b63b6ca26f7028
+    public static void initComponents(){
+        window.add(main);
+        window.setSize(650,672);
+        window.setLocation(350,40);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(false);
     }
 
 }
