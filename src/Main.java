@@ -8,6 +8,11 @@ import java.util.Scanner;
  * @version 1.0
  */
 public class Main extends JPanel{
+
+    // Colores de letra
+    static String yellow="\033[33m";
+    // Reset
+    static String reset="\u001B[0m";
     
     static String directorio = "src/laberintos/";
     static Main main = new Main();
@@ -46,7 +51,7 @@ public class Main extends JPanel{
                 window.setVisible(true);
                 maze.begin();
             }else{
-                System.out.println("\nEscribe 'A' o 'B'\n");
+                System.out.println(yellow + "\nEscribe 'A' o 'B'\n" + reset);
                 rep = true;
             }
         }while(rep);

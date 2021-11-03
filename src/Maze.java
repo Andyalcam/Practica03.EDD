@@ -11,6 +11,15 @@ import java.io.IOException;
 * @version 1.0
 */
 public class Maze extends JPanel {
+
+    // Colores de letra
+    static String red="\033[31m"; 
+    static String green="\033[32m"; 
+    static String yellow="\033[33m";
+    static String cyan="\033[36m";
+    // Reset
+    static String reset="\u001B[0m";
+
     Stack<Box> stack = new Stack();
     private Box[][] boxes;
     private Box actual;
@@ -116,7 +125,10 @@ public class Maze extends JPanel {
     public void pop(){
         while(actual.getNeighborsSize() == 0){
             if(actual.getRow() == getRowBeginBox() && actual.getColumn() == getColumnBeginBox()+1){
-                System.out.println("Este laberinto no tiene solución :c");
+                System.out.println(red + "Este laberinto no tiene solución :c" + reset);
+                try{
+                    Thread.sleep(5000);
+                }catch(InterruptedException e){}
                 System.exit(0);
             }
             actual.setDraw("     ");
@@ -138,7 +150,7 @@ public class Maze extends JPanel {
             stackAux.push(stack.pop());
         }
 
-        System.out.println(ccs + stackAux + " ]");
+        System.out.println(green + ccs + reset + cyan + stackAux + reset + green + " ]" + reset);
 
         try{
             Thread.sleep(5000);
@@ -222,7 +234,7 @@ public class Maze extends JPanel {
             }
 
         } catch(FileNotFoundException fnfe){
-            System.out.println("ARCHIVO "+name+" NO ENCONTRADO");
+            System.out.println(yellow + "ARCHIVO "+name+" NO ENCONTRADO" + reset);
         } catch(IOException ioe){}
     }
 
