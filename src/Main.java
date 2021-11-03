@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 /**
  * Clase main ejecutable para resolver un laberinto.
@@ -40,7 +41,8 @@ public class Main extends JPanel{
             System.out.println("\n¿Qué laberinto deseas probar?");
             System.out.println("Laberinto A = A");
             System.out.println("Laberinto B = B");
-            System.out.println("Ingrese la letra de la opción deseada.");
+            System.out.println("O escribe el nombre del archivo donde se encuentra el laberinto");
+            System.out.println("\nIngrese la letra de la opción deseada.");
             opc = in.nextLine();
             if(opc.equalsIgnoreCase("A")){
                 maze = new Maze(directorio+"LaberintoA.txt");
@@ -51,8 +53,13 @@ public class Main extends JPanel{
                 window.setVisible(true);
                 maze.begin();
             }else{
-                System.out.println(yellow + "\nEscribe 'A' o 'B'\n" + reset);
-                rep = true;
+                try{
+                    maze = new Maze(directorio+opc);
+                    window.setVisible(true);
+                    maze.begin();
+                }catch(Exception e){
+                    rep = true;
+                }
             }
         }while(rep);
     }
